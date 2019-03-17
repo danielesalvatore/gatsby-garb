@@ -16,7 +16,7 @@ export default ({ data, pageContext }) => {
         {data.allMarkdownRemark.edges.map(({node}) => (
           <div key={node.id}>
             <h3>
-            <Link to={`/posts/${node.fields.slug}`}>
+            <Link to={`/posts${node.fields.slug}`}>
               {node.frontmatter.title}
             </Link> {' '}
              <span style={{color: "#bbb"}}>- {node.frontmatter.date}</span></h3>
@@ -53,10 +53,14 @@ export default ({ data, pageContext }) => {
 
 export const query = graphql`
 query($skip: Int!, $limit: Int!){
-  allMarkdownRemark (
+  allMarkdownRemark(
     skip: $skip
     limit: $limit
-  ) {
+    sort: {
+      fields: [frontmatter___date]
+      order: DESC
+    }
+  ){
   	edges {
       node {
         fields {
@@ -65,7 +69,7 @@ query($skip: Int!, $limit: Int!){
         id
         frontmatter {
           title
-          date
+          date(formatString: "MMMM Do, YYYY")
         }
         excerpt
       }
