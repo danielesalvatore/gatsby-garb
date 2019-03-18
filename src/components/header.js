@@ -4,39 +4,82 @@ import React from "react"
 
 import gatsbyLogo from '../images/gatsby-icon.png'
 
+const isActive = ({isCurrent}) => {
+    return {
+        className: isCurrent ? 'active' : 'navlink'
+    }
+};
+const NavLink = props => <Link
+    getProps={isActive}
+    {...props}
+/>;
+
 const Header = ({siteTitle}) => (<header style={{
-        background: `rebeccapurple`,
-        marginBottom: `1.45rem`
-    }}>
+    background: `rebeccapurple`,
+    marginBottom: `1.45rem`
+}}>
     <div style={{
-            margin: `0 auto`,
-            maxWidth: 960,
-            padding: `1.45rem 1.0875rem`
-        }}>
+        display: "flex",
+        alignItem: 'center',
+        justifyContent: 'space-between',
+        margin: `0 auto`,
+        maxWidth: 960,
+        padding: `1.45rem 1.0875rem`
+    }}>
 
         {/* Title / Logo */}
 
         <span style={{
-                display: "flex",
-                alignItems: "center"
-            }}>
+            display: "flex",
+            alignItems: "center"
+        }}>
             <img style={{
-                    width: "50px",
-                    margin: "0 5px",
-                    border: "3px solid orange",
-                      borderRadius: "50%"
-                }} src={gatsbyLogo} alt="Gatsby logo"/>
+                width: "50px",
+                margin: "0 5px",
+                border: "3px solid orange",
+                borderRadius: "50%"
+            }} src={gatsbyLogo} alt="Gatsby logo"/>
             <h1 style={{
-                    margin: 0
-                }}>
-                <Link to="/" style={{
-                        color: `white`,
-                        textDecoration: `none`
-                    }}>
-                    {siteTitle}
-                </Link>
+                margin: 0
+            }}>
+                <NavLink to="/"> {siteTitle}  </NavLink>
             </h1>
         </span>
+
+        <NavLink to="/blog"> Blog </NavLink>
+
+        <NavLink to="/products"> Store </NavLink>
+
+        {/* Shopping Cart Summary */}
+        <div
+            style={{
+                color: "white",
+                cursor: "pointer"
+            }}
+            className='snipcart-summary snipcart-checkout'
+        >
+            <div>
+                <strong>My Cart</strong>
+            </div>
+            <div>
+                <snap
+                    className="snipcart-total-items"
+                    style={{
+                        fontWeight: 'bold'
+                    }}
+                />
+                {" "}Items in cart
+            </div>
+            <div>
+                Total price{' '}
+                <span
+                    style={{
+                        fontWeight: 'bold'
+                    }}
+                    className='snipcart-total-price'
+                />
+            </div>
+        </div>
     </div>
 </header>)
 
