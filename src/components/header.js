@@ -1,7 +1,7 @@
 import {Link} from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
-
+import netlifyIdentity from 'netlify-identity-widget'
 import gatsbyLogo from '../images/gatsby-icon.png'
 
 const isActive = ({isCurrent}) => {
@@ -14,25 +14,34 @@ const NavLink = props => <Link
     {...props}
 />;
 
-const Header = ({siteTitle}) => (<header style={{
-    background: `rebeccapurple`,
-    marginBottom: `1.45rem`
-}}>
-    <div style={{
-        display: "flex",
-        alignItem: 'center',
-        justifyContent: 'space-between',
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`
-    }}>
+class Header extends React.Component {
 
-        {/* Title / Logo */}
+    componentDidMount() {
+        netlifyIdentity.init();
+    }
 
-        <span style={{
-            display: "flex",
-            alignItems: "center"
+    render() {
+
+        const {siteTitle} = this.props;
+        return (<header style={{
+            background: `rebeccapurple`,
+            marginBottom: `1.45rem`
         }}>
+            <div style={{
+                display: "flex",
+                alignItem: 'center',
+                justifyContent: 'space-between',
+                margin: `0 auto`,
+                maxWidth: 960,
+                padding: `1.45rem 1.0875rem`
+            }}>
+
+                {/* Title / Logo */}
+
+                <span style={{
+                    display: "flex",
+                    alignItems: "center"
+                }}>
             <img style={{
                 width: "50px",
                 margin: "0 5px",
@@ -46,42 +55,47 @@ const Header = ({siteTitle}) => (<header style={{
             </h1>
         </span>
 
-        <NavLink to="/blog"> Blog </NavLink>
+                <NavLink to="/blog"> Blog </NavLink>
 
-        <NavLink to="/products"> Store </NavLink>
+                <NavLink to="/products"> Store </NavLink>
 
-        {/* Shopping Cart Summary */}
-        <div
-            style={{
-                color: "white",
-                cursor: "pointer"
-            }}
-            className='snipcart-summary snipcart-checkout'
-        >
-            <div>
-                <strong>My Cart</strong>
-            </div>
-            <div>
-                <snap
+                <div data-netlify-identity-menu/>
+
+
+                {/* Shopping Cart Summary */}
+                <div
+                    style={{
+                        color: "white",
+                        cursor: "pointer"
+                    }}
+                    className='snipcart-summary snipcart-checkout'
+                >
+                    <div>
+                        <strong>My Cart</strong>
+                    </div>
+                    <div>
+                <span
                     className="snipcart-total-items"
                     style={{
                         fontWeight: 'bold'
                     }}
                 />
-                {" "}Items in cart
+                        {" "}Items in cart
+                    </div>
+                    <div>
+                        Total price{' '}
+                        <span
+                            style={{
+                                fontWeight: 'bold'
+                            }}
+                            className='snipcart-total-price'
+                        />
+                    </div>
+                </div>
             </div>
-            <div>
-                Total price{' '}
-                <span
-                    style={{
-                        fontWeight: 'bold'
-                    }}
-                    className='snipcart-total-price'
-                />
-            </div>
-        </div>
-    </div>
-</header>)
+        </header>)
+    }
+}
 
 Header.propTypes = {
     siteTitle: PropTypes.string
